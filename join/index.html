@@ -1,0 +1,70 @@
+<!doctype html>
+<!-- Mind Grind invite link page. Published at https://guyfran.github.io/mind-grind/join/ (GitHub Pages).
+     The invite e-mail (Google Drive's share notice) links here with ?f=<familyId>&i=<inviteId>.
+     It opens the Mind Grind app (mindgrind://join, android/.../InviteLink.kt). Static: it stores and
+     sends nothing; the ids are only passed to the app, which checks the invitation after Google sign-in. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Join your family in Mind Grind</title>
+<style>
+  :root { --bg:#0b1020; --card:#151c33; --ink:#f3f5ff; --mute:#a9b2d6; --accent:#7c5cff; --accent2:#22d3a6; }
+  * { box-sizing:border-box; }
+  body { margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center; padding:16px;
+         background:radial-gradient(circle at 30% 10%, #1d2550, var(--bg) 60%); color:var(--ink);
+         font:16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  .card { width:100%; max-width:420px; background:var(--card); border-radius:20px; padding:28px 22px; text-align:center;
+          box-shadow:0 20px 50px rgba(0,0,0,.35); }
+  .logo { width:64px; height:64px; margin:0 auto 14px; display:grid; grid-template-columns:1fr 1fr; gap:6px; }
+  .logo i { border-radius:8px; } .logo i:nth-child(1){background:#7c5cff} .logo i:nth-child(2){background:#22d3a6}
+  .logo i:nth-child(3){background:#ffb84d} .logo i:nth-child(4){background:#ff5c8a}
+  h1 { font-size:22px; margin:0 0 8px; }
+  p { color:var(--mute); margin:0 0 18px; }
+  a.btn { display:block; padding:14px 16px; border-radius:8px; background:var(--accent); color:#fff; font-weight:700;
+          text-decoration:none; font-size:17px; }
+  .steps { text-align:left; color:var(--mute); margin:20px 0 0; padding-left:20px; }
+  .steps b { color:var(--ink); }
+  .err { color:#ffb4c4; }
+</style>
+</head>
+<body>
+<main class="card">
+  <div class="logo" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+  <h1 id="title">You're invited to a family in Mind Grind</h1>
+  <p id="lead">Opening Mind Grind…</p>
+  <a class="btn" id="open" href="#">Open Mind Grind</a>
+  <ol class="steps" id="help">
+    <li>If nothing opens, make sure <b>Mind Grind</b> is installed on this phone or tablet (ask the grown-up who invited you).</li>
+    <li>Open <b>Mind Grind</b>, tap <b>Join my family</b> and sign in with the Google account this invite was sent to.</li>
+  </ol>
+</main>
+<script>
+(function () {
+  var q = new URLSearchParams(location.search);
+  var ok = /^[A-Za-z0-9_-]{1,128}$/;
+  var f = q.get('f') || '', i = q.get('i') || '';
+  var btn = document.getElementById('open'), lead = document.getElementById('lead');
+  if (!ok.test(f)) {
+    lead.textContent = 'This invite link is incomplete. Open Mind Grind and tap Join my family instead.';
+    lead.className = 'err'; btn.style.display = 'none'; return;
+  }
+  var data = 'join?f=' + encodeURIComponent(f) + (ok.test(i) ? '&i=' + encodeURIComponent(i) : '');
+  var android = /Android/i.test(navigator.userAgent);
+  // Android browsers (Chrome, Silk on Fire tablets) open the app through an intent: URL; others try the scheme.
+  var target = android
+    ? 'intent://' + data + '#Intent;scheme=mindgrind;package=com.guyfran.mindgrid;end'
+    : 'mindgrind://' + data;
+  btn.href = target;
+  if (!android) {
+    lead.textContent = 'Open this link on the phone or tablet where Mind Grind is installed.';
+    return;
+  }
+  lead.textContent = 'Tap the button to open Mind Grind on this invite.';
+  // Try once automatically; browsers that need a tap keep the button.
+  setTimeout(function () { location.href = target; }, 300);
+})();
+</script>
+</body>
+</html>
