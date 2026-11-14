@@ -4,17 +4,34 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
+<meta name="theme-color" content="#0B1026">
 <title>Mind Grind</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='13' fill='%230B1026'/%3E%3Crect x='14' y='14' width='16' height='16' rx='4' fill='%23FF70BE'/%3E%3Crect x='35.5' y='15.5' width='13' height='13' rx='3.5' fill='none' stroke='%233CD7EB' stroke-width='3'/%3E%3Crect x='15.5' y='35.5' width='13' height='13' rx='3.5' fill='none' stroke='%23FF70BE' stroke-width='3'/%3E%3Crect x='34' y='34' width='16' height='16' rx='4' fill='%233CD7EB'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@700&family=Lexend:wght@400&display=swap" rel="stylesheet">
 <style>
-  body { margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center; padding:16px;
-         background:#0b1020; color:#f3f5ff; font:16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; text-align:center; }
-  p { color:#a9b2d6; max-width:420px; }
+  :root { --bg:#0B1026; --line:#232C5A; --ink:#EEF1FF; --soft:#C3CAEC; --mute:#8E98C8; --pink:#FF70BE; --cyan:#3CD7EB; }
+  * { box-sizing: border-box; }
+  body { margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center; padding:24px 16px;
+         background:var(--bg); color:var(--ink); text-align:center; overflow-x:hidden;
+         font:400 16px/1.55 Lexend, system-ui, sans-serif; }
+  body::before, body::after { content:""; position:fixed; z-index:-1; border-radius:50%; filter:blur(70px); pointer-events:none; }
+  body::before { width:340px; height:340px; background:var(--pink); opacity:.4; top:-140px; left:-120px; }
+  body::after { width:380px; height:380px; background:var(--cyan); opacity:.28; bottom:-170px; right:-140px; }
+  .logo { width:76px; height:76px; margin:0 auto 18px; padding:14px; border-radius:18px; background:var(--bg); border:1px solid var(--line);
+          display:grid; grid-template-columns:1fr 1fr; gap:6px; }
+  .logo i { border-radius:5px; } .logo i:nth-child(1){background:var(--pink)} .logo i:nth-child(2){border:3px solid var(--cyan)}
+  .logo i:nth-child(3){border:3px solid var(--pink)} .logo i:nth-child(4){background:var(--cyan)}
+  h1 { font:700 34px/1.1 "Chakra Petch", sans-serif; margin:0 0 10px; }
+  p { color:var(--soft); max-width:40ch; margin:0 auto; }
 </style>
 </head>
 <body>
 <main>
+  <div class="logo" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
   <h1>Mind Grind</h1>
-  <p>A family memory, logic and school game for phones and tablets. If you received an invite, open the link from your e-mail on the device where Mind Grind is installed.</p>
+  <p>Memory, logic and school games for the whole family, on phones and tablets. Got an invite? Open its link on the device where Mind Grind is installed.</p>
 </main>
 </body>
 </html>

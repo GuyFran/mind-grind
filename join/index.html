@@ -1,44 +1,140 @@
 <!doctype html>
-<!-- Mind Grind invite link page. Published at https://guyfran.github.io/mind-grind/join/ (GitHub Pages).
+<!-- Mind Grind invite link page. Published at https://guyfran.github.io/mind-grind/join/ (GitHub Pages,
+     public repo GuyFran/mind-grind; source of truth: site/ in the app repo).
      The invite e-mail (Google Drive's share notice) links here with ?f=<familyId>&i=<inviteId>.
      It opens the Mind Grind app (mindgrind://join, android/.../InviteLink.kt). Static: it stores and
      sends nothing; the ids are only passed to the app, which checks the invitation after Google sign-in. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex">
-<title>Join your family in Mind Grind</title>
+<meta name="theme-color" content="#0B1026">
+<title>Join your family · Mind Grind</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='13' fill='%230B1026'/%3E%3Crect x='14' y='14' width='16' height='16' rx='4' fill='%23FF70BE'/%3E%3Crect x='35.5' y='15.5' width='13' height='13' rx='3.5' fill='none' stroke='%233CD7EB' stroke-width='3'/%3E%3Crect x='15.5' y='35.5' width='13' height='13' rx='3.5' fill='none' stroke='%23FF70BE' stroke-width='3'/%3E%3Crect x='34' y='34' width='16' height='16' rx='4' fill='%233CD7EB'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=Lexend:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root { --bg:#0b1020; --card:#151c33; --ink:#f3f5ff; --mute:#a9b2d6; --accent:#7c5cff; --accent2:#22d3a6; }
-  * { box-sizing:border-box; }
-  body { margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center; padding:16px;
-         background:radial-gradient(circle at 30% 10%, #1d2550, var(--bg) 60%); color:var(--ink);
-         font:16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
-  .card { width:100%; max-width:420px; background:var(--card); border-radius:20px; padding:28px 22px; text-align:center;
-          box-shadow:0 20px 50px rgba(0,0,0,.35); }
-  .logo { width:64px; height:64px; margin:0 auto 14px; display:grid; grid-template-columns:1fr 1fr; gap:6px; }
-  .logo i { border-radius:8px; } .logo i:nth-child(1){background:#7c5cff} .logo i:nth-child(2){background:#22d3a6}
-  .logo i:nth-child(3){background:#ffb84d} .logo i:nth-child(4){background:#ff5c8a}
-  h1 { font-size:22px; margin:0 0 8px; }
-  p { color:var(--mute); margin:0 0 18px; }
-  a.btn { display:block; padding:14px 16px; border-radius:8px; background:var(--accent); color:#fff; font-weight:700;
-          text-decoration:none; font-size:17px; }
-  .steps { text-align:left; color:var(--mute); margin:20px 0 0; padding-left:20px; }
-  .steps b { color:var(--ink); }
-  .err { color:#ffb4c4; }
+  :root {
+    --bg: #0B1026; --bg2: #061022; --card: #141B3A; --line: #232C5A;
+    --ink: #EEF1FF; --soft: #C3CAEC; --mute: #8E98C8;
+    --pink: #FF70BE; --cyan: #3CD7EB;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; min-height: 100%; }
+  body {
+    min-height: 100vh; min-height: 100dvh;
+    display: flex; align-items: center; justify-content: center;
+    padding: max(24px, env(safe-area-inset-top)) 16px max(24px, env(safe-area-inset-bottom));
+    background: var(--bg); color: var(--ink);
+    font: 400 16px/1.55 Lexend, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased; overflow-x: hidden;
+  }
+  /* Soft brand glows and a faint grid, like the app's welcome screen */
+  body::before, body::after {
+    content: ""; position: fixed; z-index: -1; border-radius: 50%; filter: blur(70px); opacity: .45; pointer-events: none;
+  }
+  body::before { width: 340px; height: 340px; background: var(--pink); top: -140px; left: -120px; }
+  body::after  { width: 380px; height: 380px; background: var(--cyan); bottom: -170px; right: -140px; opacity: .3; }
+  .grid {
+    position: fixed; inset: 0; z-index: -1; pointer-events: none;
+    background-image: linear-gradient(rgba(142,152,200,.07) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(142,152,200,.07) 1px, transparent 1px);
+    background-size: 32px 32px;
+    mask-image: radial-gradient(circle at 50% 40%, #000 0%, transparent 75%);
+    -webkit-mask-image: radial-gradient(circle at 50% 40%, #000 0%, transparent 75%);
+  }
+
+  .card {
+    width: 100%; max-width: 440px; position: relative;
+    background: linear-gradient(180deg, rgba(30,38,80,.92), rgba(20,27,58,.96));
+    border: 1px solid var(--line); border-radius: 24px;
+    padding: 32px 24px 24px; text-align: center;
+    box-shadow: 0 30px 80px rgba(2,6,20,.6), inset 0 1px 0 rgba(255,255,255,.05);
+    animation: rise .6s cubic-bezier(.2,.8,.2,1) both;
+  }
+  @keyframes rise { from { opacity: 0; transform: translateY(14px) scale(.98); } to { opacity: 1; transform: none; } }
+
+  /* Logo: the app's 2x2 grid (filled pink, outlined cyan, outlined pink, filled cyan) */
+  .logo { width: 84px; height: 84px; margin: 0 auto 18px; padding: 16px; border-radius: 20px;
+          background: var(--bg); border: 1px solid var(--line);
+          box-shadow: 0 10px 30px rgba(255,112,190,.18), 0 10px 30px rgba(60,215,235,.12); }
+  .logo .g { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; width: 100%; height: 100%; }
+  .logo i { display: block; border-radius: 6px; }
+  .logo i:nth-child(1) { background: var(--pink); animation: pulse 2.8s ease-in-out infinite; }
+  .logo i:nth-child(2) { border: 3px solid var(--cyan); animation: pulse 2.8s ease-in-out .7s infinite; }
+  .logo i:nth-child(3) { border: 3px solid var(--pink); animation: pulse 2.8s ease-in-out 2.1s infinite; }
+  .logo i:nth-child(4) { background: var(--cyan); animation: pulse 2.8s ease-in-out 1.4s infinite; }
+  @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(.82); } }
+
+  .brand { font: 700 13px/1 "Chakra Petch", sans-serif; letter-spacing: .22em; text-transform: uppercase; color: var(--mute); margin: 0 0 10px; }
+  h1 { font: 700 28px/1.15 "Chakra Petch", sans-serif; margin: 0 0 10px; letter-spacing: .01em; }
+  h1 .hl { background: linear-gradient(90deg, var(--pink), var(--cyan)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .lead { color: var(--soft); margin: 0 auto 24px; max-width: 34ch; }
+
+  .btn {
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    width: 100%; min-height: 56px; padding: 14px 18px; border-radius: 8px;
+    background: linear-gradient(90deg, var(--pink), #c58bff 55%, var(--cyan));
+    color: #0B1026; font: 700 18px/1 "Chakra Petch", sans-serif; letter-spacing: .04em; text-decoration: none;
+    box-shadow: 0 10px 28px rgba(255,112,190,.28);
+    transition: transform .15s ease, box-shadow .15s ease, filter .15s ease;
+  }
+  .btn:hover { filter: brightness(1.06); box-shadow: 0 14px 34px rgba(60,215,235,.3); }
+  .btn:active { transform: translateY(1px) scale(.99); }
+  .btn:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+  .btn svg { width: 20px; height: 20px; flex: none; }
+
+  .status { display: flex; align-items: center; justify-content: center; gap: 8px; margin: 14px 0 0; font-size: 14px; color: var(--mute); min-height: 22px; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 0 0 rgba(60,215,235,.6); animation: ping 1.6s infinite; }
+  @keyframes ping { 0% { box-shadow: 0 0 0 0 rgba(60,215,235,.55); } 100% { box-shadow: 0 0 0 10px rgba(60,215,235,0); } }
+
+  .help { margin: 24px 0 0; padding: 18px 16px 4px; border-top: 1px solid var(--line); text-align: left; }
+  .help h2 { font: 600 13px/1 "Chakra Petch", sans-serif; letter-spacing: .14em; text-transform: uppercase; color: var(--mute); margin: 0 0 14px; }
+  .step { display: flex; gap: 12px; align-items: flex-start; margin: 0 0 14px; color: var(--soft); font-size: 15px; }
+  .step b { color: var(--ink); font-weight: 600; }
+  .num { flex: none; width: 26px; height: 26px; border-radius: 7px; display: grid; place-items: center;
+         font: 700 13px/1 "Chakra Petch", sans-serif; color: var(--bg); }
+  .step:nth-child(2) .num { background: var(--pink); }
+  .step:nth-child(3) .num { background: var(--cyan); }
+  .step:nth-child(4) .num { background: var(--soft); }
+
+  .note { margin: 8px 0 0; font-size: 12.5px; color: var(--mute); display: flex; gap: 8px; align-items: center; justify-content: center; }
+  .note svg { width: 14px; height: 14px; flex: none; opacity: .8; }
+
+  .err { color: #FFB4D8; }
+  .hide { display: none !important; }
+
+  @media (max-width: 360px) { h1 { font-size: 24px; } .card { padding: 26px 18px 18px; } }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
 </style>
 </head>
 <body>
+<div class="grid" aria-hidden="true"></div>
 <main class="card">
-  <div class="logo" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
-  <h1 id="title">You're invited to a family in Mind Grind</h1>
-  <p id="lead">Opening Mind Grind…</p>
-  <a class="btn" id="open" href="#">Open Mind Grind</a>
-  <ol class="steps" id="help">
-    <li>If nothing opens, make sure <b>Mind Grind</b> is installed on this phone or tablet (ask the grown-up who invited you).</li>
-    <li>Open <b>Mind Grind</b>, tap <b>Join my family</b> and sign in with the Google account this invite was sent to.</li>
-  </ol>
+  <div class="logo" aria-hidden="true"><div class="g"><i></i><i></i><i></i><i></i></div></div>
+  <p class="brand">Mind Grind</p>
+  <h1 id="title">You're invited to <span class="hl">your family</span></h1>
+  <p class="lead" id="lead">A grown-up invited you to play Mind Grind with the family. Your stars will be saved with them.</p>
+
+  <a class="btn" id="open" href="#">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    <span>Open Mind Grind</span>
+  </a>
+  <p class="status" id="status" aria-live="polite"><span class="dot"></span><span id="statusText">Opening the app…</span></p>
+
+  <section class="help" aria-labelledby="helpTitle">
+    <h2 id="helpTitle">Nothing opened?</h2>
+    <p class="step" id="step1"><span class="num">1</span><span>Open this link on the <b>phone or tablet</b> where Mind Grind is installed. No app yet? Ask the grown-up who invited you.</span></p>
+    <p class="step"><span class="num">2</span><span>Open <b>Mind Grind</b> and tap <b>Join my family</b>.</span></p>
+    <p class="step"><span class="num">3</span><span>Sign in with the <b>Google account this invite was sent to</b>. Your family is found by itself.</span></p>
+  </section>
+
+  <p class="note">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+    This page doesn't store or send anything.
+  </p>
 </main>
 <script>
 (function () {
@@ -46,9 +142,14 @@
   var ok = /^[A-Za-z0-9_-]{1,128}$/;
   var f = q.get('f') || '', i = q.get('i') || '';
   var btn = document.getElementById('open'), lead = document.getElementById('lead');
+  var status = document.getElementById('status'), statusText = document.getElementById('statusText');
   if (!ok.test(f)) {
-    lead.textContent = 'This invite link is incomplete. Open Mind Grind and tap Join my family instead.';
-    lead.className = 'err'; btn.style.display = 'none'; return;
+    document.getElementById('title').innerHTML = 'This invite link <span class="hl">is incomplete</span>';
+    lead.textContent = 'Open Mind Grind, tap Join my family and sign in with the Google account the invite was sent to.';
+    btn.classList.add('hide'); status.classList.add('hide');
+    document.getElementById('helpTitle').textContent = 'Join without the link';
+    document.getElementById('step1').classList.add('hide');
+    return;
   }
   var data = 'join?f=' + encodeURIComponent(f) + (ok.test(i) ? '&i=' + encodeURIComponent(i) : '');
   var android = /Android/i.test(navigator.userAgent);
@@ -58,12 +159,19 @@
     : 'mindgrind://' + data;
   btn.href = target;
   if (!android) {
-    lead.textContent = 'Open this link on the phone or tablet where Mind Grind is installed.';
+    statusText.textContent = 'Mind Grind runs on Android phones and tablets.';
+    status.querySelector('.dot').classList.add('hide');
+    lead.textContent = 'Open this e-mail on the phone or tablet where Mind Grind is installed, then tap the link again.';
     return;
   }
-  lead.textContent = 'Tap the button to open Mind Grind on this invite.';
-  // Try once automatically; browsers that need a tap keep the button.
-  setTimeout(function () { location.href = target; }, 300);
+  // Try once by itself; browsers that need a tap keep the button.
+  setTimeout(function () { location.href = target; }, 400);
+  setTimeout(function () {
+    if (document.visibilityState === 'visible') {
+      statusText.textContent = 'Tap the button to open Mind Grind.';
+      status.querySelector('.dot').classList.add('hide');
+    }
+  }, 2500);
 })();
 </script>
 </body>
